@@ -6,21 +6,11 @@ on:
       - Deployment
 
 jobs:
-  test-and-deploy:
+  CI-CD:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-
-      - name: Start Nginx with Docker
-        run: |
-          docker run -d --name test-nginx -p 8080:80 -v ${{ github.workspace }}/index.html:/usr/share/nginx/html/index.html:ro nginx:latest
-          sleep 5
-          curl -s -o response.html http://localhost:8080/index.html
-          grep "Hello World" response.html
-
-      - name: Stop test container
-        run: docker stop test-nginx
 
       - name: Upload index.html to Cloud Server
         uses: appleboy/scp-action@v0.1.6
@@ -30,17 +20,3 @@ jobs:
           password: ${{ secrets.CLOUD_PASSWORD }}
           source: "index.html"
           target: "/home/dev/SSD/Lab05/test_nginx/test-deploy"
-
-      - name: Deploy to Cloud via SSH
-        uses: appleboy/ssh-action@v1.0.0
-        with:
-          host: ${{ secrets.CLOUD_HOST}}
-          username: ${{ secrets.CLOUD_USER }}
-          password: ${{ secrets.CLOUD_PASSWORD }}
-          script: |
-            set -e
-            sudo docker stop my-nginx || true
-            sudo docker rm my-nginx || true
-            sudo docker run -d --name my-nginx -p 80:80 \
-              -v /home/dev/SSD/Lab05/test_nginx/test-deploy/index.html:/usr/share/nginx/html/index.html:ro \
-              nginx:latest
