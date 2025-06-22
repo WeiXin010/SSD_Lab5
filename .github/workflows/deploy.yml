@@ -37,7 +37,10 @@ jobs:
           host: ${{ secrets.CLOUD_HOST}}
           username: ${{ secrets.CLOUD_USER }}
           password: ${{ secrets.CLOUD_PASSWORD }}
-          script: 
+          script: |
+            set -e
             sudo docker stop my-nginx || true
             sudo docker rm my-nginx || true
-            sudo docker run -d --name my-nginx -p 80:80 -v /home/dev/SSD/Lab05/test_nginx/test-deploy/index.html:/usr/share/nginx/html/index.html:ro nginx:latest
+            sudo docker run -d --name my-nginx -p 80:80 \
+              -v /home/dev/SSD/Lab05/test_nginx/test-deploy/index.html:/usr/share/nginx/html/index.html:ro \
+              nginx:latest
