@@ -14,13 +14,13 @@ jobs:
 
       - name: Start Nginx with Docker
         run: |
-          docker run -d --name test-nginx -p 8080:80 -v ${{ github.workspace }}/index.html:/usr/share/nginx/html/index.html:ro nginx:latest
+          sudo docker run -d --name test-nginx -p 8080:80 -v ${{ github.workspace }}/index.html:/usr/share/nginx/html/index.html:ro nginx:latest
           sleep 5
           curl -s -o response.html http://localhost:8080/index.html
           grep "Hello World" response.html
 
       - name: Stop test container
-        run: docker stop test-nginx
+        run: sudo docker stop test-nginx
 
       - name: Deploy to Cloud via SSH
         uses: appleboy/ssh-action@v1.0.0
@@ -31,6 +31,6 @@ jobs:
           source: "index.html"
           target: "/home/dev/SSD/Lab05/test_nginx/test-deploy"
           script: 
-            docker stop my-nginx || true
-            docker rm my-nginx || true
-            docker run -d --name my-nginx -p 80:80 -v ${{ github.workspace }}/index.html:/usr/share/nginx/html/index.html:ro nginx:latest
+            sudo docker stop my-nginx || true
+            sudo docker rm my-nginx || true
+            sudo docker run -d --name my-nginx -p 80:80 -v ${{ github.workspace }}/index.html:/usr/share/nginx/html/index.html:ro nginx:latest
