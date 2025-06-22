@@ -14,13 +14,13 @@ jobs:
 
       - name: Start Nginx with Docker
         run: |
-          sudo docker run -d --name test-nginx -p 8080:80 -v ${{ github.workspace }}/index.html:/usr/share/nginx/html/index.html:ro nginx:latest
+          docker run -d --name test-nginx -p 8080:80 -v ${{ github.workspace }}/index.html:/usr/share/nginx/html/index.html:ro nginx:latest
           sleep 5
           curl -s -o response.html http://localhost:8080/index.html
           grep "Hello World" response.html
 
       - name: Stop test container
-        run: sudo docker stop test-nginx
+        run: docker stop test-nginx
 
       - name: Deploy to Cloud via SSH
         uses: appleboy/ssh-action@v1.0.0
