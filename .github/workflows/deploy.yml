@@ -3,7 +3,7 @@ name: Test and Deploy to Cloud
 on:
   push:
     branches:
-      - deployment
+      - Deployment
 
 jobs:
   test-and-deploy:
