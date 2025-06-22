@@ -1,0 +1,36 @@
+name: Test and Deploy to Cloud
+
+on:
+  push:
+    branches:
+      - deployment
+
+jobs:
+  test-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Start Nginx with Docker
+        run: |
+          docker run -d --name test-nginx -p 8080:80 -v ${{ github.workspace }}/index.html:/usr/share/nginx/html/index.html:ro nginx:latest
+          sleep 5
+          curl -s -o response.html http://localhost:8080/index.html
+          grep "Hello World" reponse.html
+
+      - name: Stop test container
+        run: docker stop test-nginx
+
+      - name: Deploy to Cloud via SSH
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.CLOUD_HOST}}
+          username: ${{ secrets.CLOUD_USER }}
+          key: ${{ secrets.CLOUD_KEY }}
+          source: "index.html"
+          target: "/home/dev/SSD/Lab05/test_nginx/test-deploy"
+          script: 
+            docker stop my-nginx || true
+            docker rm my-nginx || true
+            docker run -d --name my-nginx -p 80:80 -v ${{ github.workspace }}/index.html:/usr/share/nginx/html/index.html:ro nginx:latest
