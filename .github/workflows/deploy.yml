@@ -12,11 +12,22 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Set up Node.jobs
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22.16.0"
+
+      - name: Install dependencies
+        run: npm Install
+
+      - name: Build the Frontend
+        run: npm run build
+
       - name: Upload index.html to Cloud Server
         uses: appleboy/scp-action@v0.1.6
         with:
           host: ${{ secrets.CLOUD_HOST}}
           username: ${{ secrets.CLOUD_USER }}
           password: ${{ secrets.CLOUD_PASSWORD }}
-          source: "index.html"
-          target: "/home/dev/SSD/Lab05/test_nginx"
+          source: "build/*"
+          target: "/home/dev/SSD/Lab05/test_nginx/build"
