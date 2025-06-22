@@ -27,7 +27,6 @@ function Home() {
     return (
         <div className="App">
             <header className="App-header">
-                <img src={logo} className="App-logo" alt="logo" />
                 <p>
                     Tell me why! Aint nothing but a heart break.
                 </p>
@@ -37,14 +36,6 @@ function Home() {
 	    	<p>
 		    Choco Minto youri mo.....
 	    	</p>
-                <a
-                    className="App-link"
-                    href="https://reactjs.org"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    Learn React
-                </a>
             </header>
         </div>
     );
