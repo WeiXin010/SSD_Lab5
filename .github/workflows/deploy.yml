@@ -27,7 +27,7 @@ jobs:
         with:
           host: ${{ secrets.CLOUD_HOST}}
           username: ${{ secrets.CLOUD_USER }}
-          key: ${{ secrets.CLOUD_KEY }}
+          password: ${{ secrets.CLOUD_PASSWORD }}
           source: "index.html"
           target: "/home/dev/SSD/Lab05/test_nginx/test-deploy"
           script: 
