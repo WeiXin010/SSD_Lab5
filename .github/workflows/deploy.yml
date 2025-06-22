@@ -30,4 +30,4 @@ jobs:
           username: ${{ secrets.CLOUD_USER }}
           password: ${{ secrets.CLOUD_PASSWORD }}
           source: "build/*"
-          target: "/home/dev/SSD/Lab05/test_nginx/build"
+          target: "/home/dev/SSD/Lab05/test_nginx"
