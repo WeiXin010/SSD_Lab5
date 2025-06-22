@@ -19,4 +19,4 @@ jobs:
           username: ${{ secrets.CLOUD_USER }}
           password: ${{ secrets.CLOUD_PASSWORD }}
           source: "index.html"
-          target: "/home/dev/SSD/Lab05/test_nginx/test-deploy"
+          target: "/home/dev/SSD/Lab05/test_nginx"
