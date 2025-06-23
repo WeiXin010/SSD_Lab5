@@ -43,5 +43,5 @@ jobs:
 
       - name: Upload backend using RSYNC
         run: |
-          rsync -avz -e "ssh -i ~/.ssh/id_rsa" ./backend/MyWebApp/publish/ ${{ secrets.CLOUD_USER }}@${{ secrets.CLOUD_HOST }}:/home/dev/SSD/testing_deploy/backend
+          rsync -avz -e "ssh -i ~/.ssh/id_rsa" ./backend/MyWebApp/publish/ ${{ secrets.CLOUD_USER }}@${{ secrets.CLOUD_HOST }}:/home/dev/SSD/testing_deploy/backend/
 
