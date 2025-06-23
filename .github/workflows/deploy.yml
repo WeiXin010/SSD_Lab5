@@ -29,5 +29,5 @@ jobs:
           host: ${{ secrets.CLOUD_HOST}}
           username: ${{ secrets.CLOUD_USER }}
           password: ${{ secrets.CLOUD_PASSWORD }}
-          source: "build/*"
+          source: "frontend/build/*"
           target: "/home/dev/SSD/Lab05/test_nginx"
