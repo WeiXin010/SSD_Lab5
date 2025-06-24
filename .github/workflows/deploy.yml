@@ -27,9 +27,13 @@ jobs:
           npm run build --prefix ./frontend
 
       # BACKEND BUILD
-      - name: Publish backend
-        working-directory: ./backend/MyWebApp
-        run: dotnet publish -c Release -o publish
+      - name: Build backend Docker image
+        run: |
+          docker build -t backend-image ./backend
+          docker save -o backend.tar backend-image
+      # - name: Publish backend
+      #   working-directory: ./backend/MyWebApp
+      #   run: dotnet publish -c Release -o publish
 
       # SET UP SSH KEY FOR RSYNC
       - name: Set up SSH key
@@ -44,7 +48,27 @@ jobs:
         run: |
           rsync -avz -e "ssh -i ~/.ssh/id_rsa" ./frontend/build ${{ secrets.CLOUD_USER }}@${{ secrets.CLOUD_HOST }}:/home/dev/SSD/testing_deploy/frontend/
 
-      - name: Upload backend using RSYNC
-        run: |
-          rsync -avz -e "ssh -i ~/.ssh/id_rsa" ./backend/MyWebApp/publish/ ${{ secrets.CLOUD_USER }}@${{ secrets.CLOUD_HOST }}:/home/dev/SSD/testing_deploy/backend/
+      # - name: Upload backend using RSYNC
+      #   run: |
+      #     rsync -avz -e "ssh -i ~/.ssh/id_rsa" ./backend/MyWebApp/publish/ ${{ secrets.CLOUD_USER }}@${{ secrets.CLOUD_HOST }}:/home/dev/SSD/testing_deploy/backend/
 
+      # Copy backend image to server using SCP
+      - name: Copy backend image to server
+        uses: appleboy/scp-actions@v0.1.6
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          source: "backend.tar"
+          target: "/home/dev/SSD/testing_deploy/backend/"
+
+      # Restart backend docker container
+      - name: Restart backend docker container
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          script: |
+            docker load < /tmp/backend.tar
+            docker-compose -f nginx-compose.yml up -d backend
