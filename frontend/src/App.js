@@ -3,7 +3,7 @@ import logo from '../src/logo.svg';
 import './App.css';
 import React from 'react';
 
-console.log(cat);
+console.log(logo);
 // import {
 //     BrowserRouter as Router,
 //     Routes,
