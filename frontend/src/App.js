@@ -10,7 +10,7 @@ function App() {
         <div className="App">
             <header className="App-header">
                 <img src={cat} className="App-logo" alt="logo" />
-                <h1>DU DU DU MAX VERSTAPPEN!!</h1>
+                <h1 classname="test-title">DU DU DU MAX VERSTAPPEN!!</h1>
                 <p>
                     Tell me why! Aint nothing but a heart break.
                 </p>

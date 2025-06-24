@@ -37,6 +37,6 @@
   }
 }
 
-body {
-  background-color: red !important;
+.test-title {
+  background-color: red;
 }
