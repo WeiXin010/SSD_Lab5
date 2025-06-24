@@ -73,6 +73,7 @@ function App() {
         <div className="App">
             <header className="App-header">
                 <img src={logo} className="App-logo" alt="logo" />
+                <h1>DU DU DU MAX VERSTAPPEN!!</h1>
                 <p>
                     Tell me why! Aint nothing but a heart break.
                 </p>
