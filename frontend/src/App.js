@@ -1,6 +1,9 @@
 import logo from './logo.svg';
+import cat from '../src/cat.png';
 import './App.css';
 import React from 'react';
+
+console.log(cat);
 // import {
 //     BrowserRouter as Router,
 //     Routes,
@@ -73,6 +76,7 @@ function App() {
         <div className="App">
             <header className="App-header">
                 <img src={logo} className="App-logo" alt="logo" />
+                <img src={cat} className="App-logo" alt="logo" />
                 <h1>DU DU DU MAX VERSTAPPEN!!</h1>
                 <p>
                     Tell me why! Aint nothing but a heart break.
