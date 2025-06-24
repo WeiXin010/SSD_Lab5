@@ -11,7 +11,7 @@ function App() {
         <Router>
             <nav>
                 <Link to="/">Home</Link> | {" "}
-                <Link to="/login">About</Link>
+                <Link to="/login">Login</Link>
             </nav>
             <Routes>
                 <Route path="/" element={<Home />} />
