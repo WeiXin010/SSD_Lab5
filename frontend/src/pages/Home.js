@@ -1,4 +1,4 @@
-import cat from './cat.png';
+import cat from '../cat.png';
 import '../App.css';
 import React from 'react';
 
