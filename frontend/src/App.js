@@ -1,35 +1,22 @@
-// import logo from '../src/logo.svg';
-import cat from './cat.png';
-import './App.css';
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Home from "./pages/Home";
+import Login from "./pages/About";
 import React from 'react';
 
-console.log(cat);
+// console.log(cat);
 
 function App() {
     return (
-        <div className="App">
-            <header className="App-header">
-                <img src={cat} className="App-logo" alt="logo" />
-                <h1 className="test-title">DU DU DU MAX VERSTAPPEN!!</h1>
-                <p>
-                    Tell me why! Aint nothing but a heart break.
-                </p>
-                <p>
-                    Ruby-chan! HAIIIII! Nani gatsuki?
-                </p>
-                <p>
-                    Choco Minto youri mo.....
-                </p>
-                <a
-                    className="App-link"
-                    href="https://reactjs.org"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    Learn React
-                </a>
-            </header>
-        </div>
+        <Route>
+            <nav>
+                <Link to="/">Home</Link> | {" "}
+                <Link to="/login">About</Link>
+            </nav>
+            <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/login" element={<Login />} />
+            </Routes>
+        </Route>
     );
 }
 
