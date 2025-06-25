@@ -54,7 +54,7 @@ jobs:
 
       # Copy backend image to server using SCP
       - name: Copy backend image to server
-        uses: appleboy/scp-actions@v0.1.6
+        uses: appleboy/scp-action@v0.1.6
         with:
           host: ${{ secrets.SERVER_HOST }}
           username: ${{ secrets.SERVER_USER }}
