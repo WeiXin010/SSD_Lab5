@@ -31,6 +31,7 @@ jobs:
         run: |
           docker build -t backend-image:latest -f ./backend/MyWebApp/Dockerfile ./backend/MyWebApp
           docker save -o backend.tar backend-image:latest
+          chmod 644 backend.tar
           ls -l backend.tar
 
 
