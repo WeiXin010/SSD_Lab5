@@ -9,7 +9,7 @@ namespace MyWebApp.Controllers
     {
         private readonly AppDbContext _db;
 
-        public AuthController(AppDbContext db)
+        public LoginController(AppDbContext db)
         {
             _db = db;
         }
