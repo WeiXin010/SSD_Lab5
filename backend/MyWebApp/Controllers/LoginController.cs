@@ -20,7 +20,7 @@ namespace MyWebApp.Controllers
             public string Password { get; set; } = null;
         }
 
-        [HttpPost("login")]
+        [HttpPost]
         public async Task<IActionResult> Login([FromBody] LoginRequest request)
         {
             // Find user by username
