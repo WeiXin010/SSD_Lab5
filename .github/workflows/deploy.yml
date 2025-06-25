@@ -30,8 +30,9 @@ jobs:
       - name: Build backend Docker image
         run: |
           docker build -t backend-image:latest -f ./backend/MyWebApp/Dockerfile ./backend/MyWebApp
-          ls -l backend.tar
           docker save -o backend.tar backend-image:latest
+          ls -l backend.tar
+
 
       # SET UP SSH KEY FOR RSYNC
       - name: Set up SSH key
