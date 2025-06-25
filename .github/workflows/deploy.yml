@@ -67,4 +67,3 @@ jobs:
           key: ${{ secrets.CLOUD_KEY }}
           script: |
             docker load < /home/dev/SSD/testing_deploy/backend/backend.tar
-            docker-compose -f nginx-compose.yml up -d backend
