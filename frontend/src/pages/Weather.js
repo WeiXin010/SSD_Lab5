@@ -19,7 +19,7 @@ function Weather() {
       {weather ? (
         <pre>{JSON.stringify(weather, null, 2)}</pre>
       ) : (
-        <p>Loading weather data...</p>
+        <p>Loading weather dataa...</p>
       )}
     </div>
   );
