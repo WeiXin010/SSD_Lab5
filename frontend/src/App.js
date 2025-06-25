@@ -1,6 +1,6 @@
 import Home from "./pages/Home";
 import Login from "./pages/Login";
-import Login from "./pages/Weather";
+import Weather from "./pages/Weather";
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 
