@@ -12,7 +12,7 @@ function App() {
         <Router>
             <nav>
                 <Link to="/">Home</Link> | {" "}
-                <Link to="/login">Login</Link>
+                <Link to="/login">Login</Link> | {" "}
                 <Link to="/weather">Weather Forecast</Link>
             </nav>
             <Routes>
