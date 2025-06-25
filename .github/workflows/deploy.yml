@@ -29,8 +29,8 @@ jobs:
       # BACKEND BUILD
       - name: Build backend Docker image
         run: |
-          docker build -t backend-image ./backend
-          docker save -o backend.tar backend-image
+          docker build -t backend-image:latest ./backend/MyWebApp/Dockerfile backend/MyWebApp
+          docker save -o backend.tar backend-image:latest
       # - name: Publish backend
       #   working-directory: ./backend/MyWebApp
       #   run: dotnet publish -c Release -o publish
@@ -70,5 +70,5 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
-            docker load < /tmp/backend.tar
+            docker load < /home/dev/SSD/testing_deploy/backend/backend.tar
             docker-compose -f nginx-compose.yml up -d backend
