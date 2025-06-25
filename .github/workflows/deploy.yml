@@ -30,10 +30,8 @@ jobs:
       - name: Build backend Docker image
         run: |
           docker build -t backend-image:latest -f ./backend/MyWebApp/Dockerfile ./backend/MyWebApp
+          ls -l backend.tar
           docker save -o backend.tar backend-image:latest
-      # - name: Publish backend
-      #   working-directory: ./backend/MyWebApp
-      #   run: dotnet publish -c Release -o publish
 
       # SET UP SSH KEY FOR RSYNC
       - name: Set up SSH key
@@ -47,10 +45,6 @@ jobs:
       - name: Upload frontend using RSYNC
         run: |
           rsync -avz -e "ssh -i ~/.ssh/id_rsa" ./frontend/build ${{ secrets.CLOUD_USER }}@${{ secrets.CLOUD_HOST }}:/home/dev/SSD/testing_deploy/frontend/
-
-      # - name: Upload backend using RSYNC
-      #   run: |
-      #     rsync -avz -e "ssh -i ~/.ssh/id_rsa" ./backend/MyWebApp/publish/ ${{ secrets.CLOUD_USER }}@${{ secrets.CLOUD_HOST }}:/home/dev/SSD/testing_deploy/backend/
 
       # Copy backend image to server using SCP
       - name: Copy backend image to server
