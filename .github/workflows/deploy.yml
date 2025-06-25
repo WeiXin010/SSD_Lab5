@@ -57,3 +57,14 @@ jobs:
           key: ${{ secrets.CLOUD_KEY }}
           source: "backend.tar"
           target: "/home/dev/SSD/testing_deploy/backend/"
+
+      # Restart backend docker container
+      - name: Restart backend docker container
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.CLOUD_HOST }}
+          username: ${{ secrets.CLOUD_USER }}
+          key: ${{ secrets.CLOUD_KEY }}
+          script: |
+            docker load < /home/dev/SSD/testing_deploy/backend/backend.tar
+            docker-compose -f /home/dev/SSD/testing_deploy/backend/nginx-compose.yml up -d backend
