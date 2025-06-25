@@ -29,7 +29,7 @@ jobs:
       # BACKEND BUILD
       - name: Build backend Docker image
         run: |
-          docker build -t backend-image:latest ./backend/MyWebApp/Dockerfile backend/MyWebApp
+          docker build -t backend-image:latest -f ./backend/MyWebApp/Dockerfile ./backend/MyWebApp
           docker save -o backend.tar backend-image:latest
       # - name: Publish backend
       #   working-directory: ./backend/MyWebApp
