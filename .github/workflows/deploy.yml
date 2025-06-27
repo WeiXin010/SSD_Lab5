@@ -38,6 +38,8 @@ jobs:
       # SET UP SSH KEY FOR RSYNC
       - name: Set up SSH key
         run: |
+          echo "Cloud host is: ${{ secrets.CLOUD_HOST }}"
+          echo "Cloud user is: ${{ secrets.CLOUD_USER }}"
           mkdir -p ~/.ssh
           echo "${{ secrets.CLOUD_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
