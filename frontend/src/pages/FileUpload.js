@@ -37,7 +37,7 @@ function FileUpload() {
   };
 
   return (
-    <div className="App">
+    <div className="FileUpload">
       <h2>React File Upload</h2>
       <input type="file" onChange={handleFileChange} />
       <button onClick={handleUpload}>Upload</button>
