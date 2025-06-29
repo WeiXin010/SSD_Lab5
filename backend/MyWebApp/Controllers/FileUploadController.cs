@@ -23,19 +23,30 @@ namespace MyWebApp.Controllers
             if (file == null || file.Length == 0)
                 return BadRequest("No file uploaded");
 
-            var uploadPath = Path.Combine(Directory.GetCurrentDirectory(), "Uploads");
-
-            if (!Directory.Exists(uploadPath))
-                Directory.CreateDirectory(uploadPath);
-
-            var filePath = Path.Combine(uploadPath, file.FileName);
-
-            using (var stream = new FileStream(filePath, FileMode.Create))
+            try
             {
-                await file.CopyToAsync(stream);
+                using var content = new MultipartFormDataContent();
+                using var stream = file.OpenReadStream();
+
+                var fileContent = new StreamContent(stream);
+                fileContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(file.ContentType);
+                content.Add(fileContent, "file", file.FileName);
+
+                // Send POST to file server (change to your actual URL/IP)
+                var httpClient = new HttpClient();
+                var response = await httpClient.PostAsync("http://file_nginx/upload", content);
+
+                if (response.IsSuccessStatusCode)
+                    return Ok("File uploaded successfully.");
+                else
+                    return Ok("File upload failed.");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                return StatusCode(500, "Error uploading to file server.");
             }
 
-            return Ok("File uploaded successfully");
         }
     }
 }

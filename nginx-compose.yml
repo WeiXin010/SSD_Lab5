@@ -15,6 +15,24 @@ services:
       lab-webproxy:
         ipv4_address: 10.11.0.6
 
+  file_server:
+    image: node:18-slim
+    container_name: file_server
+    restart: unless-stopped
+    working_dir: /app
+    volumes:
+      - ./upload-server:/app
+      - uploads-data:/uploads
+    command: >
+      sh -c "
+      npm init -y &&
+      npm install express multer &&
+      node upload-server.js
+      "
+    networks:
+      lab-webproxy:
+        ipv4_address: 10.11.0.10
+
   certbot:
     image: certbot/certbot
     container_name: certbot
@@ -30,9 +48,26 @@ services:
     image: backend-image:latest            # Use the same name as `docker build -t`
     container_name: backend-server
     restart: unless-stopped
+    environment:
+      - ConnectionStrings__DefaultConnection=server=database;port=3306;database=user_account;user=dev;password=password
     networks:
       lab-webproxy:
         ipv4_address: 10.11.0.8
+
+  database:
+    container_name: mysql_database
+    image: mysql:8.0
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: user_account
+      MYSQL_USER: dev
+      MYSQL_PASSWORD: password
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      lab-webproxy:
+        ipv4_address: 10.11.0.9
 
 networks:
   lab-webproxy:
@@ -41,3 +76,7 @@ networks:
       config:
         - subnet: 10.11.0.0/16
           gateway: 10.11.0.1
+
+volumes:
+  mysql_data:
+  uploads-data:
