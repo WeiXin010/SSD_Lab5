@@ -46,4 +46,4 @@ function FileUpload() {
   );
 }
 
-export default App;
+export default FileUpload;
