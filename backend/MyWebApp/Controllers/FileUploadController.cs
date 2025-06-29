@@ -34,7 +34,7 @@ namespace MyWebApp.Controllers
 
                 // Send POST to file server (change to your actual URL/IP)
                 var httpClient = new HttpClient();
-                var response = await httpClient.PostAsync("http://file_nginx/upload", content);
+                var response = await httpClient.PostAsync("http://file_nginx:8080/upload", content);
 
                 if (response.IsSuccessStatusCode)
                     return Ok("File uploaded successfully.");
