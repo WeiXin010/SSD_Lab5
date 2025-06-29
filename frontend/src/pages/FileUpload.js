@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './App.css';
 
-function App() {
+function FileUpload() {
   const [file, setFile] = useState(null);
   const [status, setStatus] = useState('');
 
