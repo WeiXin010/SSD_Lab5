@@ -21,7 +21,7 @@ function App() {
                 <Route path="/" element={<Home />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/weather" element={<Weather />} />
-                <Route path="/fileUplaod" element={<FileUpload />} />
+                <Route path="/fileUpload" element={<FileUpload />} />
             </Routes>
         </Router>
     );
