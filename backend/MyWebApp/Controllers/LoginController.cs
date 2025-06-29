@@ -16,22 +16,22 @@ namespace MyWebApp.Controllers
 
         public class LoginRequest
         {
-            public string Email { get; set; } = null!;
-            public string Password { get; set; } = null;
+            public string email { get; set; } = null!;
+            public string password { get; set; } = null;
         }
 
         [HttpPost]
         public async Task<IActionResult> Login([FromBody] LoginRequest request)
         {
             // Find user by username
-            var user = await _db.Users.SingleOrDefaultAsync(u => u.Email == request.Email);
+            var user = await _db.Users.SingleOrDefaultAsync(u => u.email == request.email);
 
             if (user == null)
             {
                 return Unauthorized(new { message = "Invalid Username or Password" });
             }
 
-            if (!VerifyPassword(user.Password, request.Password))
+            if (!VerifyPassword(user.password, request.password))
             {
                 return Unauthorized(new { message = "Invalid Username or Password" });
             }

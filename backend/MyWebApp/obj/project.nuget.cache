@@ -1,8 +1,24 @@
 {
   "version": 2,
-  "dgSpecHash": "gsSldp0VOJC0b1xZQuknxGwwBX3PUdJULvoj1ouEBPGCLaFAxQkqLFn5OWuLsU2B9kPgbU5+9RPerOw6LLjrMw==",
+  "dgSpecHash": "B/2ZXklg6Gw=",
   "success": true,
-  "projectFilePath": "/home/dev/SSD/dotnet_proj/MyWebApp/MyWebApp.csproj",
-  "expectedPackageFiles": [],
+  "projectFilePath": "C:\\Users\\Wei Xin\\Documents\\GitHub\\SSD_Lab5\\backend\\MyWebApp\\MyWebApp.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Wei Xin\\.nuget\\packages\\microsoft.entityframeworkcore\\7.0.2\\microsoft.entityframeworkcore.7.0.2.nupkg.sha512",
+    "C:\\Users\\Wei Xin\\.nuget\\packages\\microsoft.entityframeworkcore.abstractions\\7.0.2\\microsoft.entityframeworkcore.abstractions.7.0.2.nupkg.sha512",
+    "C:\\Users\\Wei Xin\\.nuget\\packages\\microsoft.entityframeworkcore.analyzers\\7.0.2\\microsoft.entityframeworkcore.analyzers.7.0.2.nupkg.sha512",
+    "C:\\Users\\Wei Xin\\.nuget\\packages\\microsoft.entityframeworkcore.relational\\7.0.2\\microsoft.entityframeworkcore.relational.7.0.2.nupkg.sha512",
+    "C:\\Users\\Wei Xin\\.nuget\\packages\\microsoft.extensions.caching.abstractions\\7.0.0\\microsoft.extensions.caching.abstractions.7.0.0.nupkg.sha512",
+    "C:\\Users\\Wei Xin\\.nuget\\packages\\microsoft.extensions.caching.memory\\7.0.0\\microsoft.extensions.caching.memory.7.0.0.nupkg.sha512",
+    "C:\\Users\\Wei Xin\\.nuget\\packages\\microsoft.extensions.configuration.abstractions\\7.0.0\\microsoft.extensions.configuration.abstractions.7.0.0.nupkg.sha512",
+    "C:\\Users\\Wei Xin\\.nuget\\packages\\microsoft.extensions.dependencyinjection\\7.0.0\\microsoft.extensions.dependencyinjection.7.0.0.nupkg.sha512",
+    "C:\\Users\\Wei Xin\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\7.0.0\\microsoft.extensions.dependencyinjection.abstractions.7.0.0.nupkg.sha512",
+    "C:\\Users\\Wei Xin\\.nuget\\packages\\microsoft.extensions.logging\\7.0.0\\microsoft.extensions.logging.7.0.0.nupkg.sha512",
+    "C:\\Users\\Wei Xin\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\7.0.0\\microsoft.extensions.logging.abstractions.7.0.0.nupkg.sha512",
+    "C:\\Users\\Wei Xin\\.nuget\\packages\\microsoft.extensions.options\\7.0.0\\microsoft.extensions.options.7.0.0.nupkg.sha512",
+    "C:\\Users\\Wei Xin\\.nuget\\packages\\microsoft.extensions.primitives\\7.0.0\\microsoft.extensions.primitives.7.0.0.nupkg.sha512",
+    "C:\\Users\\Wei Xin\\.nuget\\packages\\mysqlconnector\\2.2.5\\mysqlconnector.2.2.5.nupkg.sha512",
+    "C:\\Users\\Wei Xin\\.nuget\\packages\\pomelo.entityframeworkcore.mysql\\7.0.0\\pomelo.entityframeworkcore.mysql.7.0.0.nupkg.sha512"
+  ],
   "logs": []
 }
