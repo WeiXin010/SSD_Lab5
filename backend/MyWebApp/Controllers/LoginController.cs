@@ -8,10 +8,13 @@ namespace MyWebApp.Controllers
     public class LoginController : ControllerBase
     {
         private readonly AppDbContext _db;
+        private readonly ILogger<LoginController> _logger;
 
-        public LoginController(AppDbContext db)
+        public LoginController(AppDbContext db, ILogger<LoginController> logger)
         {
             _db = db;
+            _logger = logger;
+
         }
 
         public class LoginRequest
@@ -23,6 +26,7 @@ namespace MyWebApp.Controllers
         [HttpPost]
         public async Task<IActionResult> Login([FromBody] LoginRequest request)
         {
+            _logger.LogInformation($"Login attempt for {request.email}");
             // Find user by username
             var user = await _db.Users.SingleOrDefaultAsync(u => u.email == request.email);
 
