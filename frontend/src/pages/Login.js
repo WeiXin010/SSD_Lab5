@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 
-
 function Login() {
     const [error, setError] = useState('');
 
@@ -21,10 +20,11 @@ function Login() {
                 let message = 'Login Failed';
 
                 try {
-                    const data = await response.json();
-                    if (data.message) message = data.message;
+                    const text = await response.text(); // ✅ safer
+                    const data = text ? JSON.parse(text) : null;
+                    if (data?.message) message = data.message;
                 } catch (e) {
-                    console.warn('Response not JSON:', e);
+                    console.warn('Failed to parse JSON:', e);
                 }
 
                 setError(message);
@@ -48,7 +48,6 @@ function Login() {
                 {error && <div id="errorMsg" className="error">{error}</div>}
             </form>
         </div>
-
     );
 }
 
