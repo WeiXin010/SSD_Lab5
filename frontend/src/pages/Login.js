@@ -30,7 +30,8 @@ function Login() {
             }
         }
         catch (err) {
-            setError('Network Error');
+            console.error('Fetch error:', err); // Logs full error to dev console
+            setError(err.message || 'Network Error'); // Displays the specific message
         }
     };
 
