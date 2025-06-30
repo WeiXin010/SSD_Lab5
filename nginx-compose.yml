@@ -13,7 +13,7 @@ services:
       - ./frontend/build:/var/www/html/:ro
     networks:
       net_backend_nginx:
-        ipv4_address: 10.0.0.2
+        ipv4_address: 172.1.0.2
 
   file_server:
     image: node:18-slim
@@ -25,7 +25,7 @@ services:
       - uploads-data:/uploads
     networks:
       net_backend_file:
-        ipv4_address: 10.1.0.2
+        ipv4_address: 172.2.0.2
     command: >
       sh -c "
       npm init -y &&
@@ -41,7 +41,7 @@ services:
       - ./certbot/conf:/etc/letsencrypt
     networks:
       net_backend_nginx:
-        ipv4_address: 10.0.0.4
+        ipv4_address: 172.1.0.4
     entrypoint: sh -c "certbot certonly --webroot -w /var/www/certbot --email dev@chigga123.com --agree-tos --no-eff-email --rsa-key-size 4096 --expand --force-renewal -d chigga123.duckdns.org -d www.chigga123.duckdns.org"
 
   backend:
@@ -49,14 +49,14 @@ services:
     container_name: backend-server
     restart: unless-stopped
     environment:
-      - ConnectionStrings__DefaultConnection=server=database;port=3306;database=ready4work;user=dev;password=password
+      - ConnectionStrings__DefaultConnection=server=database;port=3306;database=user_account;user=dev;password=password
     networks:
       net_backend_nginx:
-        ipv4_address: 10.0.0.3
+        ipv4_address: 172.1.0.3
       net_backend_file:
-        ipv4_address: 10.1.0.3
+        ipv4_address: 172.2.0.3
       net_backend_mysql:
-        ipv4_address: 10.2.0.3
+        ipv4_address: 172.3.0.3
 
   database:
     container_name: mysql_database
@@ -71,27 +71,27 @@ services:
       - mysql_data:/var/lib/mysql
     networks:
       net_backend_mysql:
-        ipv4_address: 10.2.0.2
+        ipv4_address: 172.3.0.2
 
 networks:
   net_backend_nginx:
     driver: bridge
     ipam:
       config:
-        - subnet: 10.0.0.0/16
-          gateway: 10.0.0.1
+        - subnet: 172.1.0.0/24
+          gateway: 172.1.0.1
   net_backend_file:
     driver: bridge
     ipam:
       config:
-        - subnet: 10.1.0.0/16
-          gateway: 10.1.0.1
+        - subnet: 172.2.0.0/24
+          gateway: 172.2.0.1
   net_backend_mysql:
     driver: bridge
     ipam:
       config:
-        - subnet: 10.2.0.0/16
-          gateway: 10.2.0.1
+        - subnet: 172.3.0.0/16
+          gateway: 172.3.0.1
 
 volumes:
   mysql_data:
