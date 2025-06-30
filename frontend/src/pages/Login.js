@@ -38,8 +38,8 @@ function Login() {
             <div className="Login">
                 <h2>Login</h2>
                 <form id="loginForm" onSubmit={handleSubmit}>
-                    <input type="email" id="email" placeholder="Email" required />
-                    <input type="password" id="password" placeholder="Password" required />
+                    <input type="email" name="email" id="email" placeholder="Email" required />
+                    <input type="password" name="password" id="password" placeholder="Password" required />
                     <button type="submit">Login</button>
                     {error && <div id="errorMsg" className="error">{error}</div>}
                 </form>
