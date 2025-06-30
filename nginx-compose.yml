@@ -42,7 +42,7 @@ services:
     networks:
       net_backend_nginx:
         ipv4_address: 10.0.0.4
-    entrypoint: sh -c "certbot certonly --webroot -w /var/www/certbot --email dev@ready4work.com --agree-tos --no-eff-email --rsa-key-size 4096 --expand --force-renewal -d ready4work.duckdns.org -d www.ready4work.duckdns.org"
+    entrypoint: sh -c "certbot certonly --webroot -w /var/www/certbot --email dev@chigga123.com --agree-tos --no-eff-email --rsa-key-size 4096 --expand --force-renewal -d chigga123.duckdns.org -d www.chigga123.duckdns.org"
 
   backend:
     image: backend-image:latest            # Use the same name as `docker build -t`
