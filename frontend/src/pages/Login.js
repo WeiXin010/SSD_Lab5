@@ -13,40 +13,43 @@ function Login() {
         try {
             const response = await fetch('/api/login', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ email, password }),
             });
 
             if (!response.ok) {
-                // Extract error message from response
-                const data = await response.json();
-                setError(data.message || 'Login Failed');
-            }
-            else {
+                let message = 'Login Failed';
+
+                try {
+                    const data = await response.json();
+                    if (data.message) message = data.message;
+                } catch (e) {
+                    console.warn('Response not JSON:', e);
+                }
+
+                setError(message);
+            } else {
                 setError('');
                 alert('Login Successful!');
             }
-        }
-        catch (err) {
-            console.error('Fetch error:', err); // Logs full error to dev console
-            setError(err.message || 'Network Error'); // Displays the specific message
+        } catch (err) {
+            console.error('Fetch error:', err);
+            setError(err.message || 'Network Error');
         }
     };
 
-        return (
-            <div className="Login">
-                <h2>Login</h2>
-                <form id="loginForm" onSubmit={handleSubmit}>
-                    <input type="email" name="email" id="email" placeholder="Email" required />
-                    <input type="password" name="password" id="password" placeholder="Password" required />
-                    <button type="submit">Login</button>
-                    {error && <div id="errorMsg" className="error">{error}</div>}
-                </form>
-            </div>
+    return (
+        <div className="Login">
+            <h2>Login</h2>
+            <form id="loginForm" onSubmit={handleSubmit}>
+                <input type="email" name="email" id="email" placeholder="Email" required />
+                <input type="password" name="password" id="password" placeholder="Password" required />
+                <button type="submit">Login</button>
+                {error && <div id="errorMsg" className="error">{error}</div>}
+            </form>
+        </div>
 
-        );
-    }
+    );
+}
 
-    export default Login;
+export default Login;
