@@ -1,7 +1,7 @@
 services:
   nginx:
     image: nginx:latest
-    container_name: nginx-proxy
+    container_name: nginx_proxy
     restart: unless-stopped
     ports:
       - "80:80"  # Required for certbot HTTP challenge
@@ -12,8 +12,8 @@ services:
       - ./certbot/conf:/etc/letsencrypt  # SSL certs storage
       - ./frontend/build:/var/www/html/:ro
     networks:
-      lab-webproxy:
-        ipv4_address: 10.11.0.6
+      net_backend_nginx:
+        ipv4_address: 10.0.0.2
 
   file_server:
     image: node:18-slim
@@ -23,15 +23,15 @@ services:
     volumes:
       - ./upload-server:/app
       - uploads-data:/uploads
+    networks:
+      net_backend_file:
+        ipv4_address: 10.1.0.2
     command: >
       sh -c "
       npm init -y &&
       npm install express multer &&
       node upload-server.js
       "
-    networks:
-      lab-webproxy:
-        ipv4_address: 10.11.0.10
 
   certbot:
     image: certbot/certbot
@@ -40,19 +40,23 @@ services:
       - ./certbot/www:/var/www/certbot
       - ./certbot/conf:/etc/letsencrypt
     networks:
-      lab-webproxy:
-        ipv4_address: 10.11.0.7
-    entrypoint: sh -c "certbot certonly --webroot -w /var/www/certbot --email 2301894@sit.singaporetech.edu.sg --agree-tos --no-eff-email --rsa-key-size 4096 --expand --force-renewal -d chigga123.duckdns.org -d www.chigga123.duckdns.org"
+      net_backend_nginx:
+        ipv4_address: 10.0.0.4
+    entrypoint: sh -c "certbot certonly --webroot -w /var/www/certbot --email dev@ready4work.com --agree-tos --no-eff-email --rsa-key-size 4096 --expand --force-renewal -d ready4work.duckdns.org -d www.ready4work.duckdns.org"
 
   backend:
     image: backend-image:latest            # Use the same name as `docker build -t`
     container_name: backend-server
     restart: unless-stopped
     environment:
-      - ConnectionStrings__DefaultConnection=server=database;port=3306;database=user_account;user=dev;password=password
+      - ConnectionStrings__DefaultConnection=server=database;port=3306;database=ready4work;user=dev;password=password
     networks:
-      lab-webproxy:
-        ipv4_address: 10.11.0.8
+      net_backend_nginx:
+        ipv4_address: 10.0.0.3
+      net_backend_file:
+        ipv4_address: 10.1.0.3
+      net_backend_mysql:
+        ipv4_address: 10.2.0.3
 
   database:
     container_name: mysql_database
@@ -66,16 +70,28 @@ services:
     volumes:
       - mysql_data:/var/lib/mysql
     networks:
-      lab-webproxy:
-        ipv4_address: 10.11.0.9
+      net_backend_mysql:
+        ipv4_address: 10.2.0.2
 
 networks:
-  lab-webproxy:
+  net_backend_nginx:
     driver: bridge
     ipam:
       config:
-        - subnet: 10.11.0.0/16
-          gateway: 10.11.0.1
+        - subnet: 10.0.0.0/16
+          gateway: 10.0.0.1
+  net_backend_file:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.1.0.0/16
+          gateway: 10.1.0.1
+  net_backend_mysql:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.2.0.0/16
+          gateway: 10.2.0.1
 
 volumes:
   mysql_data:
