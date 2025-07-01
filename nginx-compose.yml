@@ -58,6 +58,8 @@ services:
         ipv4_address: 172.2.0.3
       net_backend_mysql:
         ipv4_address: 172.3.0.3
+      bridge: {}
+
 
   database:
     container_name: mysql_database
@@ -93,6 +95,8 @@ networks:
       config:
         - subnet: 172.3.0.0/16
           gateway: 172.3.0.1
+  bridge:
+    external: true
 
 volumes:
   mysql_data:

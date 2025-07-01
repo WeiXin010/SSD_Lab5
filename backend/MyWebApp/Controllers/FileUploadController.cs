@@ -12,10 +12,12 @@ namespace MyWebApp.Controllers
     public class FileUploadController : ControllerBase
     {
         private readonly AppDbContext _db;
+        private readonly ILogger<FileUploadController> _logger;
 
-        public FileUploadController(AppDbContext db)
+        public FileUploadController(AppDbContext db, ILogger<FileUploadController> logger)
         {
             _db = db;
+            _logger = logger;
         }
 
         [HttpPost]
@@ -35,9 +37,11 @@ namespace MyWebApp.Controllers
                 var isClean = await FileResultAsync(analysisId);
                 if (!isClean)
                 {
+                    _logger.LogWarning("File '{FileName}' was flagged as malicious or suspicious by VirusTotal.", file.FileName);
                     return BadRequest("File is flagged as malicious by VirusTotal.");
                 }
-                
+
+                _logger.LogWarning("File '{FileName}' passed VirusTotal scan and is safe to upload.", file.FileName);
                 using var content = new MultipartFormDataContent();
                 using var stream = file.OpenReadStream();
 
@@ -50,9 +54,15 @@ namespace MyWebApp.Controllers
                 var response = await httpClient.PostAsync("http://file_server:8080/upload", content);
 
                 if (response.IsSuccessStatusCode)
+                {
+                    _logger.LogInformation("File '{FileName}' uploaded successfully to file server.", file.FileName);
                     return Ok("File uploaded successfully.");
+                }
                 else
+                {
+                    _logger.LogError("File '{FileName}' upload to file server failed. Status code: {StatusCode}", file.FileName, response.StatusCode);
                     return Ok("File upload failed.");
+                }
             }
             catch (Exception ex)
             {
