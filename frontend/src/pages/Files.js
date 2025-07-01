@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 function Files() {
   const [file, setFile] = useState(null);
   const [status, setStatus] = useState('');
+  const [filename, setFilename] = useState('');
 
   const handleFileChange = (e) => {
     setFile(e.target.files[0]);
