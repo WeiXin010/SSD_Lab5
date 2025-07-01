@@ -50,6 +50,7 @@ services:
     restart: unless-stopped
     environment:
       - ConnectionStrings__DefaultConnection=server=database;port=3306;database=user_account;user=dev;password=password
+      - VIRUSTOTAL_API_KEY=${VIRUSTOTAL_API_KEY}
     networks:
       net_backend_nginx:
         ipv4_address: 172.1.0.3
