@@ -88,4 +88,4 @@ function Files() {
   );
 }
 
-export default FileUpload;
+export default Files;
