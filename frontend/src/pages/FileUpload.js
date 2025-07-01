@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-function FileUpload() {
+function Files() {
   const [file, setFile] = useState(null);
   const [status, setStatus] = useState('');
 
@@ -36,13 +36,55 @@ function FileUpload() {
     }
   };
 
+  const downloadFile = async () => {
+    if (!filename) {
+      setStatus('Please enter a filename.');
+      return;
+    }
+
+    try {
+      const response = await fetch(`api/fileDownload/${filename}`);
+      if (!response.ok) {
+        setStatus('File not found or error downloading.');
+        return;
+      }
+
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename; // <-- use filename here
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      window.URL.revokeObjectURL(url);
+
+      setStatus('Download started.');
+    } catch (error) {
+      console.error('Download error:', error);
+      setStatus('Download failed (network error).');
+    }
+  };
+
   return (
     <div>
-      <h2>React File Upload</h2>
-      <input type="file" onChange={handleFileChange} />
-      <button onClick={handleUpload}>Upload</button>
-      {status && <p>{status}</p>}
+      <div>
+        <h2>File Upload</h2>
+        <input type="file" onChange={handleFileChange} />
+        <button onClick={handleUpload}>Upload</button>
+        {status && <p>{status}</p>}
+      </div>
+      <br></br>
+      <br></br>
+      <div>
+        <h2>File Download</h2>
+        <input type="text" value={filename} onChange={(e) => setFilename(e.target.value)} placeholder="Enter filename"></input>
+        <button onClick={downloadFile}>Download</button>
+        {status && <p>{status}</p>}
+      </div>
     </div>
+
   );
 }
 
