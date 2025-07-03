@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using Microsoft.AspNetCore.Identity.Data;
 
+
 [ApiController]
 [Route("api/[controller]")]
 public class EmailController : ControllerBase
@@ -26,10 +27,11 @@ public class EmailController : ControllerBase
             var subject = "Job notification";
             var body = "This is to inform you that you have been accepted by Company A";
 
+
             using var smtp = new SmtpClient("smtp.gmail.com", 587)
             {
                 Credentials = new NetworkCredential(senderEmail, senderPassword),
-                EnableSsl = true;
+                EnableSsl = true,
             };
 
             using var message = new MailMessage(fromAddress, toAddress)
@@ -46,5 +48,4 @@ public class EmailController : ControllerBase
             return StatusCode(500, $"Email sending failed: {ex.Message}");
         }
     }
-
 }
