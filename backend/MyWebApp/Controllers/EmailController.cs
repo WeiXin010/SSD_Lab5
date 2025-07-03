@@ -34,10 +34,21 @@ public class EmailController : ControllerBase
             message.From = new MailAddress(senderEmail, "Ready4Work");
             message.To.Add(new MailAddress(request.ToEmail));
             message.Subject = "You've been accepted!";
-            message.Body = "Hi there! Congratulations, you've been accepted to Company A.";
-            message.IsBodyHtml = false;
 
-            // Add headers
+            // ✅ HTML body starts here
+            message.IsBodyHtml = true;
+            message.Body = @"
+                <html>
+                <body style='font-family: Arial, sans-serif;'>
+                    <h2>🎉 Congratulations!</h2>
+                    <p>Hi there,</p>
+                    <p>We’re excited to let you know that you’ve been <strong>accepted to Company A</strong>!</p>
+                    <p style='margin-top: 20px;'>– The Ready4Work Team</p>
+                </body>
+                </html>";
+            // ✅ HTML body ends here
+
+            // Headers to improve deliverability
             message.ReplyToList.Add(new MailAddress(senderEmail));
             message.Headers.Add("X-Priority", "1");
             message.Headers.Add("X-MSMail-Priority", "High");
