@@ -28,25 +28,24 @@ public class EmailController : ControllerBase
         try
         {
             var senderEmail = Environment.GetEnvironmentVariable("EMAIL_ADDRESS") ?? throw new InvalidOperationException("EMAIL_ADDRESS environment variable is not set");
-
             var senderPassword = Environment.GetEnvironmentVariable("EMAIL_PASSWORD") ?? throw new InvalidOperationException("EMAIL_PASSWORD environment variable is not set"); ;
 
-            var fromAddress = new MailAddress(senderEmail, "Ready4work");
-            var toAddress = new MailAddress(request.ToEmail);
-            var subject = "Job notification";
-            var body = "This is to inform you that you have been accepted by Company A";
-            _logger.LogInformation("To: {Email} uploaded successfully to file server.", toAddress.ToString());
+            var message = new MailMessage();
+            message.From = new MailAddress(senderEmail, "Ready4Work");
+            message.To.Add(new MailAddress(request.ToEmail));
+            message.Subject = "You've been accepted!";
+            message.Body = "Hi there! Congratulations, you've been accepted to Company A.";
+            message.IsBodyHtml = false;
+
+            // Add headers
+            message.ReplyToList.Add(new MailAddress(senderEmail));
+            message.Headers.Add("X-Priority", "1");
+            message.Headers.Add("X-MSMail-Priority", "High");
 
             using var smtp = new SmtpClient("smtp.gmail.com", 587)
             {
                 Credentials = new NetworkCredential(senderEmail, senderPassword),
                 EnableSsl = true,
-            };
-
-            using var message = new MailMessage(fromAddress, toAddress)
-            {
-                Subject = subject,
-                Body = body
             };
 
             smtp.Send(message);
