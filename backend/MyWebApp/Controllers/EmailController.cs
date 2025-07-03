@@ -11,6 +11,13 @@ public class EmailController : ControllerBase
 {
     private readonly string senderEmail = Environment.GetEnvironmentVariable("EMAIL_ADDRESS");
     private readonly string senderPassword = Environment.GetEnvironmentVariable("EMAIL_PASSWORD");
+    private readonly ILogger<EmailController> _logger;
+
+    public EmailController(ILogger<EmailController> logger)
+    {
+        _logger = logger;
+    }
+
 
     [HttpPost]
     public IActionResult SendEmail([FromBody] EmailRequest request)
@@ -26,6 +33,8 @@ public class EmailController : ControllerBase
             var toAddress = new MailAddress(request.ToEmail);
             var subject = "Job notification";
             var body = "This is to inform you that you have been accepted by Company A";
+            _logger.LogInformation("To: '{toAddress}' uploaded successfully to file server.", toAddress);
+
 
 
             using var smtp = new SmtpClient("smtp.gmail.com", 587)
@@ -44,7 +53,8 @@ public class EmailController : ControllerBase
 
             return Ok("Email sent successfully.");
         }
-        catch (SmtpException ex){
+        catch (SmtpException ex)
+        {
             return StatusCode(500, $"Email sending failed: {ex.Message}");
         }
     }
