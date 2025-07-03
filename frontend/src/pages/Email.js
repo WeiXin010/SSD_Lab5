@@ -43,7 +43,7 @@ function Emails() {
                     type="email"
                     name="email"
                     value={email}
-                    onChange={e => handleEmail(e.target.value)}
+                    onChange={e => setEmail(e.target.value)}
                     required
                 />
                 <button type="submit">Send</button>
