@@ -26,8 +26,11 @@ public class EmailController : ControllerBase
         }
 
         try
-        {   var senderEmail = Environment.GetEnvironmentVariable("EMAIL_ADDRESS");
-            var senderPassword = Environment.GetEnvironmentVariable("EMAIL_PASSWORD");
+        {
+            var senderEmail = Environment.GetEnvironmentVariable("EMAIL_ADDRESS") ?? throw new InvalidOperationException("EMAIL_ADDRESS environment variable is not set");
+
+            var senderPassword = Environment.GetEnvironmentVariable("EMAIL_PASSWORD") ?? throw new InvalidOperationException("EMAIL_PASSWORD environment variable is not set"); ;
+
             var fromAddress = new MailAddress(senderEmail, "Ready4work");
             var toAddress = new MailAddress(request.ToEmail);
             var subject = "Job notification";
