@@ -2,6 +2,7 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Weather from "./pages/Weather";
 import Files from "./pages/Files";
+import Emails from "./pages/Email";
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 
@@ -15,13 +16,15 @@ function App() {
                 <Link to="/">Home</Link> | {" "}
                 <Link to="/login">Login</Link> | {" "}
                 <Link to="/weather">Weather Forecast</Link> | {" "}
-                <Link to="/files">Files</Link>
+                <Link to="/files">Files</Link> | {" "}
+                <Link to="/email">Email</Link>
             </nav>
             <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/weather" element={<Weather />} />
                 <Route path="/files" element={<Files />} />
+                <Route path="/email" element={<Emails />} />
             </Routes>
         </Router>
     );

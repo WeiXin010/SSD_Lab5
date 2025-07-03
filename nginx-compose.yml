@@ -49,8 +49,10 @@ services:
     container_name: backend-server
     restart: unless-stopped
     environment:
-      - ConnectionStrings__DefaultConnection=server=database;port=3306;database=user_account;user=dev;password=password
+      - ConnectionStrings__DefaultConnection=${CONNECTION_STRING}
       - VIRUSTOTAL_API_KEY=${VIRUSTOTAL_API_KEY}
+      - EMAIL_PASSWORD=${EMAIL_PASSWORD}
+      - EMAIL_ADDRESS=${EMAIL_ADDRESS}
     networks:
       net_backend_nginx:
         ipv4_address: 172.1.0.3
@@ -58,8 +60,6 @@ services:
         ipv4_address: 172.2.0.3
       net_backend_mysql:
         ipv4_address: 172.3.0.3
-      bridge: {}
-
 
   database:
     container_name: mysql_database
@@ -95,8 +95,6 @@ networks:
       config:
         - subnet: 172.3.0.0/16
           gateway: 172.3.0.1
-  bridge:
-    external: true
 
 volumes:
   mysql_data:
