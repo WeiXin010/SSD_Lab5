@@ -1,6 +1,9 @@
-using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using System.Net.Mail;
+using Microsoft.AspNetCore.Mvc;
+using System;
+using Microsoft.AspNetCore.Identity.Data;
+
 
 [ApiController]
 [Route("api/[controller]")]
@@ -8,19 +11,31 @@ public class EmailController : ControllerBase
 {
     private readonly string senderEmail = Environment.GetEnvironmentVariable("EMAIL_ADDRESS");
     private readonly string senderPassword = Environment.GetEnvironmentVariable("EMAIL_PASSWORD");
+    private readonly ILogger<EmailController> _logger;
 
-    [HttpPost("send")]
+    public EmailController(ILogger<EmailController> logger)
+    {
+        _logger = logger;
+    }
+
+
+    [HttpPost]
     public IActionResult SendEmail([FromBody] EmailRequest request)
     {
         if (string.IsNullOrEmpty(request.ToEmail))
-            return BadRequest("Recipient email is required.");
+        {
+            return BadRequest("Recipient email is required");
+        }
 
         try
         {
-            var fromAddress = new MailAddress(senderEmail, "Your App Name");
+            var fromAddress = new MailAddress(senderEmail, "Ready4work");
             var toAddress = new MailAddress(request.ToEmail);
-            var subject = "Test Email";
-            var body = "This is a test email.";
+            var subject = "Job notification";
+            var body = "This is to inform you that you have been accepted by Company A";
+            _logger.LogInformation("To: '{toAddress}' uploaded successfully to file server.", toAddress);
+
+
 
             using var smtp = new SmtpClient("smtp.gmail.com", 587)
             {
