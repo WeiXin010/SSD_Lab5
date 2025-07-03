@@ -9,8 +9,6 @@ using Microsoft.AspNetCore.Identity.Data;
 [Route("api/[controller]")]
 public class EmailController : ControllerBase
 {
-    private readonly string senderEmail = Environment.GetEnvironmentVariable("EMAIL_ADDRESS");
-    private readonly string senderPassword = Environment.GetEnvironmentVariable("EMAIL_PASSWORD");
     private readonly ILogger<EmailController> _logger;
 
     public EmailController(ILogger<EmailController> logger)
@@ -28,14 +26,13 @@ public class EmailController : ControllerBase
         }
 
         try
-        {
+        {   var senderEmail = Environment.GetEnvironmentVariable("EMAIL_ADDRESS");
+            var senderPassword = Environment.GetEnvironmentVariable("EMAIL_PASSWORD");
             var fromAddress = new MailAddress(senderEmail, "Ready4work");
             var toAddress = new MailAddress(request.ToEmail);
             var subject = "Job notification";
             var body = "This is to inform you that you have been accepted by Company A";
-            _logger.LogInformation("To: '{toAddress}' uploaded successfully to file server.", toAddress);
-
-
+            _logger.LogInformation("To: {Email} uploaded successfully to file server.", toAddress.ToString());
 
             using var smtp = new SmtpClient("smtp.gmail.com", 587)
             {
