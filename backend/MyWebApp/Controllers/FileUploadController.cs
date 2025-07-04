@@ -97,7 +97,9 @@ namespace MyWebApp.Controllers
 
             var json = await response.Content.ReadAsStringAsync();
             var doc = JsonDocument.Parse(json);
-            return doc.RootElement.GetProperty("data").GetProperty("id").GetString();
+            string? analysisId = doc.RootElement.GetProperty("data").GetProperty("id").GetString();
+            _logger.LogInformation("Analysis Id: '{AnalysisId}' uploaded successfully to file server. File: '{FileName}'", analysisId, file.FileName);
+            return analysisId;
         }
 
         private async Task<bool> FileResultAsync(string analysisId)
