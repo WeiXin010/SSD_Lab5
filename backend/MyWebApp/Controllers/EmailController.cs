@@ -53,7 +53,7 @@ public class EmailController : ControllerBase
             message.Headers.Add("X-Priority", "1");
             message.Headers.Add("X-MSMail-Priority", "High");
 
-            using var smtp = new SmtpClient("smtp.gmail.com", 587)
+            using var smtp = new SmtpClient("smtp.office365.com", 587)
             {
                 Credentials = new NetworkCredential(senderEmail, senderPassword),
                 EnableSsl = true,
