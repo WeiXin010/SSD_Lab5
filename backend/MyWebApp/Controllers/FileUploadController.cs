@@ -114,6 +114,7 @@ namespace MyWebApp.Controllers
                 var response = await httpClient.GetAsync($"https://www.virustotal.com/api/v3/analyses/{analysisId}");
                 var json = await response.Content.ReadAsStringAsync();
                 _logger.LogInformation("VirusTotal JSON Response: {Json}", json); // ← Add this line
+                _logger.LogInformation("Try number: {I}", i);
                 var doc = JsonDocument.Parse(json);
 
                 var status = doc.RootElement
@@ -136,7 +137,7 @@ namespace MyWebApp.Controllers
                     return malicious == 0 && suspicious == 0;
                 }
 
-                await Task.Delay(1000); // wait 2s between polls
+                await Task.Delay(2000); // wait 2s between polls
             }
 
             // If result doesn't come in time, treat as unsafe
