@@ -124,6 +124,7 @@ namespace MyWebApp.Controllers
 
                 if (status == "completed")
                 {
+                    _logger.LogInformation("VirusTotal JSON Response: {Json}", json); // ← Add this line
                     var stats = doc.RootElement
                         .GetProperty("data")
                         .GetProperty("attributes")
