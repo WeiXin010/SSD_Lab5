@@ -98,7 +98,7 @@ namespace MyWebApp.Controllers
             var json = await response.Content.ReadAsStringAsync();
             var doc = JsonDocument.Parse(json);
             string? analysisId = doc.RootElement.GetProperty("data").GetProperty("id").GetString();
-            _logger.LogInformation("Analysis Id: '{AnalysisId}' uploaded successfully to file server. File: '{FileName}'", analysisId, file.FileName);
+            _logger.LogInformation("Analysis Id: '{AnalysisId}' uploaded successfully to VirusTotal. File: '{FileName}'", analysisId, file.FileName);
             return analysisId;
         }
 
@@ -113,6 +113,7 @@ namespace MyWebApp.Controllers
             {
                 var response = await httpClient.GetAsync($"https://www.virustotal.com/api/v3/analyses/{analysisId}");
                 var json = await response.Content.ReadAsStringAsync();
+                _logger.LogInformation("VirusTotal JSON Response: {Json}", json); // ← Add this line
                 var doc = JsonDocument.Parse(json);
 
                 var status = doc.RootElement
@@ -134,7 +135,7 @@ namespace MyWebApp.Controllers
                     return malicious == 0 && suspicious == 0;
                 }
 
-                await Task.Delay(2000); // wait 2s between polls
+                await Task.Delay(1000); // wait 2s between polls
             }
 
             // If result doesn't come in time, treat as unsafe
