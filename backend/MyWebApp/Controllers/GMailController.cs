@@ -9,9 +9,9 @@ using Microsoft.AspNetCore.Identity.Data;
 [Route("api/[controller]")]
 public class GmailController : ControllerBase
 {
-    private readonly ILogger<EmailController> _logger;
+    private readonly ILogger<GmailController> _logger;
 
-    public GmailController(ILogger<EmailController> logger)
+    public GmailController(ILogger<GmailController> logger)
     {
         _logger = logger;
     }

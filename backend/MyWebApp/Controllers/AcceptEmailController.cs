@@ -10,11 +10,11 @@ using SendGrid.Helpers.Mail;
 
 [ApiController]
 [Route("api/[controller]")]
-public class EmailController : ControllerBase
+public class AcceptEmailEmailController : ControllerBase
 {
-    private readonly ILogger<EmailController> _logger;
+    private readonly ILogger<AcceptEmailEmailController> _logger;
 
-    public EmailController(ILogger<EmailController> logger)
+    public AcceptEmailEmailController(ILogger<AcceptEmailEmailController> logger)
     {
         _logger = logger;
     }
@@ -35,14 +35,14 @@ public class EmailController : ControllerBase
             var client = new SendGridClient(apiKey);
             var from = new EmailAddress("noreply.ready4work@gmail.com", "DiCE");
             var to = new EmailAddress(request.ToEmail);
-            var subject = "WARNING on Failure to submit!";
-            var plainTextContent = "Chigga Chigga Chigga";
+            var subject = "You've been accepted!";
+            var plainTextContent = "You've been accepted by Company A";
             var htmlContent = @"
             <html>
                 <body style='font-family: Arial, sans-serif;'>
-                    <h2>🎉 Gangstar Rap!</h2>
-                    <p>Chigga Chigga Chigga</p>
-                    <p>Imma <strong>100%</strong>chigga!</p>
+                    <h2>🎉 Congratulations</h2>
+                    <p>Hi there</p>
+                    <p>We’re excited to let you know that you’ve been <strong>accepted to Company A</strong>!</p>
                     <p style='margin-top: 20px;'>– The Ready4Work Team</p>
                 </body>
             </html>";
