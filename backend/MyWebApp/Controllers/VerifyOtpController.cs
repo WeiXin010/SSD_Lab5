@@ -45,19 +45,9 @@ namespace MyWebApp.Controllers
             return Ok(new { message = "Login Successful" });
         }
 
-        // Currently is checking plaintext! NEED TO CHANGE
         private bool VerifyOtp(string otp, string submittedOtp, DateTime expiredAt, DateTime submittedAt)
         {
             return otp == submittedOtp & submittedAt <= expiredAt;
-        }
-
-        private string GenerateOTP()
-        {
-            var rng = new Random();
-            string otp = "";
-            for (int i = 0; i < 6; i++)
-                otp += rng.Next(0, 10).ToString();
-            return otp;
         }
     }
 }

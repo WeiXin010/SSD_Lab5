@@ -9,12 +9,13 @@ namespace MyWebApp.Controllers
     {
         private readonly AppDbContext _db;
         private readonly ILogger<LoginController> _logger;
+        private readonly IEmailService _emailService;
 
-        public LoginController(AppDbContext db, ILogger<LoginController> logger)
+        public LoginController(AppDbContext db, ILogger<LoginController> logger, IEmailService emailService)
         {
             _db = db;
             _logger = logger;
-
+            _emailService = emailService;
         }
 
         public class LoginRequest
@@ -54,7 +55,7 @@ namespace MyWebApp.Controllers
             await _db.SaveChangesAsync();
 
             _logger.LogInformation($"OTP for {request.email}: {otpCode}");
-
+            await _emailService.SendOtpEmailAsync(request.email, otpCode);
 
             return Ok(new { message = "Login Successful" });
         }
