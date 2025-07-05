@@ -25,7 +25,7 @@ namespace MyWebApp.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login([FromBody] SubmittedOtp submittedOtp)
+        public async Task<IActionResult> VerifyOtp([FromBody] SubmittedOtp submittedOtp)
         {
             _logger.LogInformation($"Time submitted {submittedOtp.submittedTime} for {submittedOtp.email}");
             // Find user by username
@@ -41,7 +41,8 @@ namespace MyWebApp.Controllers
                 return Unauthorized(new { message = "OPT is wrong or code expired!" });
             }
 
-
+            _db.OtpRecords.Remove(user);
+            await _db.SaveChangesAsync();
             return Ok(new { message = "Login Successful" });
         }
 
