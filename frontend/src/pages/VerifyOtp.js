@@ -13,17 +13,24 @@ function VerifyOtp() {
             return;
         }
 
+        const currentTime = new Date().toISOString();
+
         try {
             const response = await fetch('/api/login/verify-otp', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email, otpCode: otp }),
+                body: JSON.stringify({ 
+                    email: email, 
+                    otpCode: otp,
+                    currentTime: currentTime
+                }),
             });
 
             if (response.ok) {
                 const data = await response.json();
                 console.log(data.message); // Or use it to update state, etc.
                 setStatus("OTP verified! Logging in...");
+                alert('Login Successful!');
                 // Optionally: navigate to dashboard/home
             } else {
                 const error = await response.json();
