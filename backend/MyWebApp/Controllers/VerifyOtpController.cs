@@ -20,7 +20,7 @@ namespace MyWebApp.Controllers
         public class SubmittedOtp
         {
             public string email { get; set; } = null!;
-            public string otp { get; set; } = null!;
+            public string otpCode { get; set; } = null!;
             public DateTime submittedTime { get; set; }
         }
 
@@ -36,9 +36,9 @@ namespace MyWebApp.Controllers
                 return Unauthorized(new { message = "No login record. Please login again" });
             }
 
-            if (!VerifyOtp(user.OtpCode, submittedOtp.otp, user.ExpireAt, submittedOtp.submittedTime))
+            if (!VerifyOtp(user.OtpCode, submittedOtp.otpCode, user.ExpireAt, submittedOtp.submittedTime))
             {
-                return Unauthorized(new { message = "OPT is wrong or code expired!" });
+                return Unauthorized(new { message = "OTP is wrong or code expired!" });
             }
 
             _db.OtpRecords.Remove(user);
