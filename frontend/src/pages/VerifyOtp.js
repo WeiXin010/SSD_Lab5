@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 
 function VerifyOtp() {
-    const [error, setError] = useState('');
-    const navigate = useNavigate();
+    const [status, setStatus] = useState('');
+    const [otp, setOtp] = useState('');
+
+    // const navigate = useNavigate();
 
     const handleOTP = async (e) => {
         e.preventDefault();
@@ -45,7 +47,7 @@ function VerifyOtp() {
     return (
         <div>
             <h2>Enter OTP</h2>
-            <form onSubmit={handleVerify}>
+            <form onSubmit={handleOTP}>
                 <input
                     type="text"
                     value={otp}
