@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 
 function VerifyOtp() {
     const [otp, setOtp] = useState('');
@@ -23,6 +22,7 @@ function VerifyOtp() {
 
             if (response.ok) {
                 const data = await response.json();
+                console.log(data.message); // Or use it to update state, etc.
                 setStatus("OTP verified! Logging in...");
                 // Optionally: navigate to dashboard/home
             } else {
