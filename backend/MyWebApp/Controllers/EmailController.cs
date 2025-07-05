@@ -3,6 +3,9 @@ using System.Net.Mail;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using Microsoft.AspNetCore.Identity.Data;
+using SendGrid;
+using SendGrid.Helpers.Mail;
+
 
 
 [ApiController]
@@ -18,54 +21,46 @@ public class EmailController : ControllerBase
 
 
     [HttpPost]
-    public IActionResult SendEmail([FromBody] EmailRequest request)
+    public async Task<IActionResult> SendEmail([FromBody] EmailRequest request)
     {
-        if (string.IsNullOrEmpty(request.ToEmail))
-        {
-            return BadRequest("Recipient email is required");
-        }
+        if (string.IsNullOrWhiteSpace(request.ToEmail))
+            return BadRequest("Recipient email is required.");
+
+        var apiKey = Environment.GetEnvironmentVariable("SENDGRID_API_KEY");
+        if (string.IsNullOrWhiteSpace(apiKey))
+            return StatusCode(500, "Missing SendGrid API Key.");
 
         try
         {
-            var senderEmail = Environment.GetEnvironmentVariable("EMAIL_ADDRESS") ?? throw new InvalidOperationException("EMAIL_ADDRESS environment variable is not set");
-            var senderPassword = Environment.GetEnvironmentVariable("EMAIL_PASSWORD") ?? throw new InvalidOperationException("EMAIL_PASSWORD environment variable is not set"); ;
-
-            var message = new MailMessage();
-            message.From = new MailAddress(senderEmail, "Ready4Work");
-            message.To.Add(new MailAddress(request.ToEmail));
-            message.Subject = "You've been accepted!";
-
-            // ✅ HTML body starts here
-            message.IsBodyHtml = true;
-            message.Body = @"
-                <html>
+            var client = new SendGridClient(apiKey);
+            var from = new EmailAddress("noreply@ready4work.sg", "Ready4Work");
+            var to = new EmailAddress(request.ToEmail);
+            var subject = "You've been accepted!";
+            var plainTextContent = "Hi there! You've been accepted to Company A.";
+            var htmlContent = @"
+            <html>
                 <body style='font-family: Arial, sans-serif;'>
                     <h2>🎉 Congratulations!</h2>
                     <p>Hi there,</p>
                     <p>We’re excited to let you know that you’ve been <strong>accepted to Company A</strong>!</p>
                     <p style='margin-top: 20px;'>– The Ready4Work Team</p>
                 </body>
-                </html>";
-            // ✅ HTML body ends here
+            </html>";
 
-            // Headers to improve deliverability
-            message.ReplyToList.Add(new MailAddress(senderEmail));
-            message.Headers.Add("X-Priority", "1");
-            message.Headers.Add("X-MSMail-Priority", "High");
+            var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
+            var response = await client.SendEmailAsync(msg);
 
-            using var smtp = new SmtpClient("smtp.office365.com", 587)
-            {
-                Credentials = new NetworkCredential(senderEmail, senderPassword),
-                EnableSsl = true,
-            };
+            if (response.IsSuccessStatusCode)
+                return Ok("Email sent successfully via SendGrid.");
 
-            smtp.Send(message);
-
-            return Ok("Email sent successfully.");
+            var errorBody = await response.Body.ReadAsStringAsync();
+            _logger.LogError("SendGrid failed with status {Status}: {Body}", response.StatusCode, errorBody);
+            return StatusCode((int)response.StatusCode, "SendGrid failed to send email.");
         }
-        catch (SmtpException ex)
+        catch (Exception ex)
         {
-            return StatusCode(500, $"Email sending failed: {ex.Message}");
+            _logger.LogError(ex, "Exception occurred while sending email.");
+            return StatusCode(500, "An error occurred while sending email.");
         }
     }
 }
