@@ -16,7 +16,7 @@ function VerifyOtp() {
         const currentTime = new Date().toISOString();
 
         try {
-            const response = await fetch('/api/login/verify-otp', {
+            const response = await fetch('/api/verifyotp', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ 
