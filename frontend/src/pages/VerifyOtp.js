@@ -1,53 +1,44 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function VerifyOtp() {
-    const [status, setStatus] = useState('');
     const [otp, setOtp] = useState('');
+    const [status, setStatus] = useState('');
 
-    // const navigate = useNavigate();
-
-    const handleOTP = async (e) => {
+    const handleVerify = async (e) => {
         e.preventDefault();
+        const email = localStorage.getItem('pendingEmail'); // grab from login step
 
-        const email = localStorage.getItem('pendingEmail');
         if (!email) {
             setStatus("No email found. Please login again.");
             return;
         }
 
         try {
-            const response = await fetch('/api/otp', {
+            const response = await fetch('/api/login/verify-otp', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ Email: email, otpCode: otp }),
+                body: JSON.stringify({ email, otpCode: otp }),
             });
 
-            if (!response.ok) {
-                let message = 'Login Failed';
-
-                try {
-                    const text = await response.text(); // ✅ safer
-                    const data = text ? JSON.parse(text) : null;
-                    if (data?.message) message = data.message;
-                } catch (e) {
-                    console.warn('Failed to parse JSON:', e);
-                }
-
-                setError(message);
+            if (response.ok) {
+                const data = await response.json();
+                setStatus("OTP verified! Logging in...");
+                // Optionally: navigate to dashboard/home
             } else {
-                setError('');
-                alert('Login Successful!');
+                const error = await response.json();
+                setStatus(error.message || "OTP verification failed.");
             }
         } catch (err) {
-            console.error('Fetch error:', err);
-            setError(err.message || 'Network Error');
+            setStatus("An error occurred while verifying OTP.");
+            console.error(err);
         }
     };
 
     return (
         <div>
             <h2>Enter OTP</h2>
-            <form onSubmit={handleOTP}>
+            <form onSubmit={handleVerify}>
                 <input
                     type="text"
                     value={otp}
