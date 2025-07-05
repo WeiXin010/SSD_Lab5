@@ -118,7 +118,7 @@ namespace MyWebApp.Controllers
             using var httpClient = new HttpClient();
             httpClient.DefaultRequestHeaders.Add("x-apikey", apiKey);
 
-            const int maxRetries = 20;
+            const int maxRetries = 30;
             for (int i = 0; i < maxRetries; i++)
             {
                 var response = await httpClient.GetAsync($"https://www.virustotal.com/api/v3/analyses/{analysisId}");

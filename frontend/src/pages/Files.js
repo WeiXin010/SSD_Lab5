@@ -76,6 +76,7 @@ function Files() {
       <div>
         <h2>File Upload</h2>
         <input type="file" onChange={handleFileChange} />
+        <input type="text" placeholder="Enter company ID" value={companyId} onChange={(e) => setCompanyId(e.target.value)}/>
         <button onClick={handleUpload}>Upload</button>
         {status && <p>{status}</p>}
       </div>
@@ -84,7 +85,6 @@ function Files() {
       <div>
         <h2>File Download</h2>
         <input type="text" value={filename} onChange={(e) => setFilename(e.target.value)} placeholder="Enter filename"></input>
-        <input type="text" placeholder="Enter company ID" value={companyId} onChange={(e) => setCompanyId(e.target.value)}/>
         <button onClick={downloadFile}>Download</button>
         {status && <p>{status}</p>}
       </div>
