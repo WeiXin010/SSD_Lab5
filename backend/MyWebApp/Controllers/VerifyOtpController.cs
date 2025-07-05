@@ -48,7 +48,7 @@ namespace MyWebApp.Controllers
 
         private bool VerifyOtp(string otp, string submittedOtp, DateTime expiredAt, DateTime submittedAt)
         {
-            return otp == submittedOtp & submittedAt <= expiredAt;
+            return otp.Trim() == submittedOtp.Trim() && submittedAt <= expiredAt;
         }
     }
 }

@@ -22,7 +22,7 @@ function VerifyOtp() {
                 body: JSON.stringify({ 
                     email: email, 
                     otpCode: otp,
-                    currentTime: currentTime
+                    submittedTime: currentTime
                 }),
             });
 
