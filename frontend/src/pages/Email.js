@@ -38,6 +38,7 @@ function Emails() {
     return (
         <div>
             <h2>Email your friends and family</h2>
+            <p>Hello world</p>
             <form onSubmit={handleEmail}>
                 <input
                     type="email"
