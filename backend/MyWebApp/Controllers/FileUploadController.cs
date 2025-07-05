@@ -21,7 +21,7 @@ namespace MyWebApp.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> UploadFile(IFormFile file)
+        public async Task<IActionResult> UploadFile(IFormFile file, [FromForm] int companyId)
         {
             if (file == null || file.Length == 0)
                 return BadRequest("No file uploaded");
@@ -56,6 +56,16 @@ namespace MyWebApp.Controllers
                 if (response.IsSuccessStatusCode)
                 {
                     _logger.LogInformation("File '{FileName}' uploaded successfully to file server.", file.FileName);
+
+                    var storedFile = new Resume
+                    {
+                        companyId = companyId,
+                        fileName = file.FileName,
+                        filePath = $"/uploads/ file.FileName",
+                        uploadedAt = DateTime.UtcNow
+                    };
+
+                    _db.Resumes.Add(storedFile);
                     return Ok("File uploaded successfully.");
                 }
                 else

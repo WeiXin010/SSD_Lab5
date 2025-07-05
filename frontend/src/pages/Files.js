@@ -4,6 +4,7 @@ function Files() {
   const [file, setFile] = useState(null);
   const [status, setStatus] = useState('');
   const [filename, setFilename] = useState('');
+  const [companyId, setCompanyId] = useState('');
 
   const handleFileChange = (e) => {
     setFile(e.target.files[0]);
@@ -18,6 +19,8 @@ function Files() {
 
     const formData = new FormData();
     formData.append('file', file);
+    formData.append('companyId', companyId);  // <-- append companyId here
+
 
     try {
       // Replace with your actual backend endpoint
@@ -81,6 +84,7 @@ function Files() {
       <div>
         <h2>File Download</h2>
         <input type="text" value={filename} onChange={(e) => setFilename(e.target.value)} placeholder="Enter filename"></input>
+        <input type="text" placeholder="Enter company ID" value={companyId} onChange={(e) => setCompanyId(e.target.value)}/>
         <button onClick={downloadFile}>Download</button>
         {status && <p>{status}</p>}
       </div>
