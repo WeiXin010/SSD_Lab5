@@ -33,7 +33,7 @@ public class EmailController : ControllerBase
         try
         {
             var client = new SendGridClient(apiKey);
-            var from = new EmailAddress("noreply@ready4work.sg", "Ready4Work");
+            var from = new EmailAddress("noreply.ready4work@gmail.com", "Ready4Work");
             var to = new EmailAddress(request.ToEmail);
             var subject = "You've been accepted!";
             var plainTextContent = "Hi there! You've been accepted to Company A.";
