@@ -40,6 +40,22 @@ namespace MyWebApp.Controllers
                 return Unauthorized(new { message = "Invalid Username or Password" });
             }
 
+            string otpCode = GenerateOTP();
+
+            // Save OTp to DB
+            var otp = new OtpRecord
+            {
+                Email = request.email,
+                OtpCode = otpCode,
+                ExpireAt = DateTime.UtcNow.AddMinutes(5)
+            };
+
+            _db.OtpRecords.Add(otp);
+            await _db.SaveChangesAsync();
+
+            _logger.LogInformation($"OTP for {request.email}: {otpCode}");
+
+
             return Ok(new { message = "Login Successful" });
         }
 
@@ -47,6 +63,15 @@ namespace MyWebApp.Controllers
         private bool VerifyPassword(string plainPassword, string storePassword)
         {
             return plainPassword == storePassword;
+        }
+
+        private string GenerateOTP()
+        {
+            var rng = new Random();
+            string otp = "";
+            for (int i = 0; i < 6; i++)
+                otp += rng.Next(0, 10).ToString();
+            return otp;
         }
     }
 }

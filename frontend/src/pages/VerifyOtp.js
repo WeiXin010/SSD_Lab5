@@ -1,21 +1,23 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 
-function Login() {
+function VerifyOtp() {
     const [error, setError] = useState('');
     const navigate = useNavigate();
 
-    const handleSubmit = async (e) => {
+    const handleOTP = async (e) => {
         e.preventDefault();
 
-        const email = e.target.email.value;
-        const password = e.target.password.value;
+        const email = localStorage.getItem('pendingEmail');
+        if (!email) {
+            setStatus("No email found. Please login again.");
+            return;
+        }
 
         try {
-            const response = await fetch('/api/login', {
+            const response = await fetch('/api/otp', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email, password }),
+                body: JSON.stringify({ Email: email, otpCode: otp }),
             });
 
             if (!response.ok) {
@@ -32,9 +34,7 @@ function Login() {
                 setError(message);
             } else {
                 setError('');
-                // alert('Login Successful!');
-                localStorage.setItem("pendingEmail", email);
-                navigate("/verify-otp");
+                alert('Login Successful!');
             }
         } catch (err) {
             console.error('Fetch error:', err);
@@ -43,16 +43,21 @@ function Login() {
     };
 
     return (
-        <div className="Login">
-            <h2>Login</h2>
-            <form id="loginForm" onSubmit={handleSubmit}>
-                <input type="email" name="email" id="email" placeholder="Email" required />
-                <input type="password" name="password" id="password" placeholder="Password" required />
-                <button type="submit">Login</button>
-                {error && <div id="errorMsg" className="error">{error}</div>}
+        <div>
+            <h2>Enter OTP</h2>
+            <form onSubmit={handleVerify}>
+                <input
+                    type="text"
+                    value={otp}
+                    onChange={(e) => setOtp(e.target.value)}
+                    placeholder="Enter OTP"
+                    required
+                />
+                <button type="submit">Verify</button>
             </form>
+            {status && <p>{status}</p>}
         </div>
     );
 }
 
-export default Login;
+export default VerifyOtp;

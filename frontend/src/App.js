@@ -3,6 +3,8 @@ import Login from "./pages/Login";
 import Weather from "./pages/Weather";
 import Files from "./pages/Files";
 import Emails from "./pages/Email";
+import VerifyOtp from "./pages/VerifyOtp";
+
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 
@@ -25,6 +27,8 @@ function App() {
                 <Route path="/weather" element={<Weather />} />
                 <Route path="/files" element={<Files />} />
                 <Route path="/email" element={<Emails />} />
+                <Route path="/verify-otp" element={<VerifyOtp />} />
+
             </Routes>
         </Router>
     );
