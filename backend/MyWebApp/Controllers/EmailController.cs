@@ -33,16 +33,16 @@ public class EmailController : ControllerBase
         try
         {
             var client = new SendGridClient(apiKey);
-            var from = new EmailAddress("noreply.ready4work@gmail.com", "Ready4Work");
+            var from = new EmailAddress("noreply.ready4work@gmail.com", "DiCE");
             var to = new EmailAddress(request.ToEmail);
-            var subject = "You've been accepted!";
-            var plainTextContent = "Hi there! You've been accepted to Company A.";
+            var subject = "WARNING on Failure to submit!";
+            var plainTextContent = "Chigga Chigga Chigga";
             var htmlContent = @"
             <html>
                 <body style='font-family: Arial, sans-serif;'>
-                    <h2>🎉 Congratulations!</h2>
-                    <p>Hi there,</p>
-                    <p>We’re excited to let you know that you’ve been <strong>accepted to Company A</strong>!</p>
+                    <h2>🎉 Gangstar Rap!</h2>
+                    <p>Chigga Chigga Chigga</p>
+                    <p>Imma <strong>100%</strong>chigga!</p>
                     <p style='margin-top: 20px;'>– The Ready4Work Team</p>
                 </body>
             </html>";
