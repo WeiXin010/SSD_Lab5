@@ -61,7 +61,7 @@ namespace MyWebApp.Controllers
                     {
                         companyId = companyId,
                         fileName = file.FileName,
-                        filePath = $"/upload/file.FileName",
+                        filePath = $"/upload/{file.FileName}",
                         uploadedAt = DateTime.UtcNow
                     };
 
