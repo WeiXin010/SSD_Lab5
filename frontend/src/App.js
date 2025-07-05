@@ -2,6 +2,7 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Weather from "./pages/Weather";
 import Files from "./pages/Files";
+import VerifyOtp from "./pages/VerifyOtp";
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 
@@ -22,6 +23,7 @@ function App() {
                 <Route path="/login" element={<Login />} />
                 <Route path="/weather" element={<Weather />} />
                 <Route path="/files" element={<Files />} />
+                <Route path="/verify-otp" element={<VerifyOtp />} />
             </Routes>
         </Router>
     );

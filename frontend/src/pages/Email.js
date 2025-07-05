@@ -14,7 +14,7 @@ function Emails() {
         }
 
         try {
-            const response = await fetch('/api/email/', {
+            const response = await fetch('/api/acceptemail/', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ toEmail: email }),
