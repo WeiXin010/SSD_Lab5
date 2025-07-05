@@ -37,7 +37,7 @@ function Emails() {
 
     return (
         <div>
-            <h2>Email your friends</h2>
+            <h2>Email your friends and family</h2>
             <form onSubmit={handleEmail}>
                 <input
                     type="email"
