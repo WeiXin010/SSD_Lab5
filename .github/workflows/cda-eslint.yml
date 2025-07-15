@@ -12,21 +12,21 @@ jobs:
       - name: Cache Node.js modules
         uses: actions/cache@v4
         with:
-          path: node_modules
+          path: ./frontend/node_modules
           key: ${{ runner.os }}-node-modules-${{ hashFiles('**/package-lock.json') }}
           restore-keys: ${{ runner.os }}-node-modules
 
       - name: Install Node.js dependencies
-        run: npm install
+        run: npm install --prefix ./frontend
 
       - name: Create reports directory
-        run: mkdir -p reports
+        run: mkdir -p frontend/reports
 
       - name: Install ESLint SARIF Formatter
-        run: npm install @microsoft/eslint-formatter-sarif --save-dev
+        run: npm install --prefix ./frontend @microsoft/eslint-formatter-sarif --save-dev
 
       - name: Run ESLint with SARIF output
-        run: npx eslint . --format @microsoft/eslint-formatter-sarif --output-file reports/eslint-results.sarif || true
+        run: npx eslint --prefix ./frontend/src --format @microsoft/eslint-formatter-sarif --output-file reports/eslint-results.sarif || true
 
       - name: Debug ESLint Output
         run: cat reports/eslint-results.sarif || echo "No SARIF report generated"
