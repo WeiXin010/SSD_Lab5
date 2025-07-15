@@ -26,10 +26,10 @@ jobs:
         run: npm install --prefix ./frontend @microsoft/eslint-formatter-sarif --save-dev
 
       - name: Run ESLint with SARIF output
-        run: npx eslint --prefix ./frontend/src --format @microsoft/eslint-formatter-sarif --output-file frontend/reports/eslint-results.sarif || true
+        run: npx eslint ./frontend/src --format @microsoft/eslint-formatter-sarif --output-file frontend/reports/eslint-results.sarif || true
 
       - name: Debug ESLint Output
-        run: cat reports/eslint-results.sarif || echo "No SARIF report generated"
+        run: cat frontend/reports/eslint-results.sarif || echo "No SARIF report generated"
 
       - name: Upload SARIF report
         uses: github/codeql-action/upload-sarif@v3
