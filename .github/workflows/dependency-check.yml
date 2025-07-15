@@ -14,7 +14,7 @@ jobs:
         with:
           project: "SSD_Lab5"
           path: "."
-          formart: "HTML"
+          format: "HTML"
           out: "dependency-check-report"
 
       - name: Upload Report
