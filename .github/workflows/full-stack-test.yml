@@ -122,4 +122,4 @@ jobs:
           sleep 5
 
       - name: Run Selenium tests
-        run: node ./frontend/selenium/login-test.js
+        run: node frontend/selenium/login-test.js

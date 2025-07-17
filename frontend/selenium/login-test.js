@@ -10,7 +10,7 @@ async function testHomePage() {
     let driver = await new Builder().forBrowser('chrome').usingServer('http://localhost:4444/wd/hub').setChromeOptions(options).build();
     try {
         // Navigate to your React app URL
-        await driver.get('https://chigga123.duckdns.org/login');
+        await driver.get('https://localhost:3000/login');
 
         // Wait for email field to be ready.
         const emailField = await driver.findElement(By.id('email'), 5000);
