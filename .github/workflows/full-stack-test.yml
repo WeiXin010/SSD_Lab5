@@ -58,8 +58,8 @@ jobs:
       - name: Archive backend publish output
         working-directory: ./backend/MyWebApp
         run: |
-          tar -czf ../backend.tar.gz ./publish
-          ls -lh ../backend.tar.gz
+          tar -czf ../../backend.tar.gz ./publish
+          ls -lh ../../backend.tar.gz
 
       - name: Upload backend artifact
         uses: actions/upload-artifact@v4
